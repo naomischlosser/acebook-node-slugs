@@ -30,6 +30,6 @@ layout.hbs
 
 accessed via
 $ gcloud app browse
-back4app
+
 "nodemon ./bin/www"
 //

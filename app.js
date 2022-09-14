@@ -4,6 +4,8 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const session = require("express-session");
+// const MongoDBStore = require("connect-mongodb-session")(session);
+
 const methodOverride = require("method-override");
 
 const homeRouter = require("./routes/home");
@@ -16,6 +18,11 @@ const adminRouter = require("./routes/admin");
 
 const app = express();
 
+// var store = new MongoDBStore({
+// 	uri: "mongodb://0.0.0.0/acebook",
+// 	collection: "mySessions",
+// });
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
@@ -27,6 +34,31 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 
+// // new connect-mongodb-session
+// app.use(
+// 	session({
+// 		key: user_sid,
+// 		secret: process.env.SECRET,
+// 		resave: false,
+// 		saveUninitialized: false,
+// 		store: new MongoStore({ mongooseConnection: mongoose.connection }),
+// 	})
+// );
+
+// app.use(
+// 	require("express-session")({
+// 		key: "user_sid",
+// 		secret: "super_secret",
+// 		cookie: {
+// 			maxAge: 1000 * 60 * 60 * 2,
+// 		},
+// 		store: store,
+// 		resave: true,
+// 		saveUninitialized: true,
+// 	})
+// );
+
+// original
 app.use(
 	session({
 		key: "user_sid",
@@ -70,6 +102,11 @@ app.use((req, res, next) => {
 	next(createError(404));
 });
 
+// // Catch errors
+// store.on("error", function (error) {
+// 	console.log(error);
+// });
+
 // error handler
 app.use((err, req, res) => {
 	// set locals, only providing error in development
@@ -80,6 +117,13 @@ app.use((err, req, res) => {
 	res.status(err.status || 500);
 	res.render("error");
 });
+
+// // from connect-mongodb-session
+// app.get("/", function (req, res) {
+// 	res.send("Hello " + JSON.stringify(req.session));
+// });
+
+// server = app.listen(8080);
 
 const port = parseInt(process.env.PORT) || 8080;
 app.listen(port, () => {
