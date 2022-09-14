@@ -18,8 +18,12 @@ describe("Sign up validation", () => {
     cy.get("#email").type("ralph@example.com");
     cy.get("#password").type("password");
     cy.get("#signup").click();
-    cy.get(".sign-up-error").contains("This username is already being used.");
-    cy.get(".sign-up-error").contains("Emails and usernames must be unique.");
+    cy.get("#sign-up-error-div").contains(
+      "This username is already being used."
+    );
+    cy.get("#sign-up-error-div").contains(
+      "Emails and usernames must be unique."
+    );
   });
 
   it("user can't create a new account if email already exists in db", () => {
@@ -35,8 +39,10 @@ describe("Sign up validation", () => {
     cy.get("#email").type("billy@example.com");
     cy.get("#password").type("password");
     cy.get("#signup").click();
-    cy.get(".sign-up-error").contains("This email is already being used.");
-    cy.get(".sign-up-error").contains("Emails and usernames must be unique.");
+    cy.get("#sign-up-error-div").contains("This email is already being used.");
+    cy.get("#sign-up-error-div").contains(
+      "Emails and usernames must be unique."
+    );
   });
 
   it("user can't create a new account if email and username already exists in db", () => {
@@ -52,9 +58,11 @@ describe("Sign up validation", () => {
     cy.get("#email").type("billy@example.com");
     cy.get("#password").type("password");
     cy.get("#signup").click();
-    cy.get(".sign-up-error").contains(
+    cy.get("#sign-up-error-div").contains(
       "Other users are already using this username and email."
     );
-    cy.get(".sign-up-error").contains("Emails and usernames must be unique.");
+    cy.get("#sign-up-error-div").contains(
+      "Emails and usernames must be unique."
+    );
   });
 });

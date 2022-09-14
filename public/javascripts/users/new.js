@@ -1,43 +1,40 @@
 function submitNewUserForm() {
-  const firstNameInputValue = document.querySelector("#first-name").value;
-  const lastNameInputValue = document.querySelector("#last-name").value;
-  const usernameInputValue = document.querySelector("#last-name").value;
-  const emailInputValue = document.querySelector("#email").value;
-  const passwordInputValue = document.querySelector("#password").value;
-
+  // creates new object out of form data to submit in fetch request body
+  const formDataObj = {};
+  new FormData(document.forms["new-user-form"]).forEach(
+    (value, key) => (formDataObj[key] = value)
+  );
   fetch("/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      first_name: firstNameInputValue,
-      last_name: lastNameInputValue,
-      username: usernameInputValue,
-      email: emailInputValue,
-      password: passwordInputValue,
-    }),
+    body: JSON.stringify(formDataObj),
   })
     .then((response) => response.json())
     .then((result) => {
-      if (result.content) {
-        let message;
-        if (result.content.usernameExists && !result.content.emailExists) {
-          message = "This username is already being used.";
-        } else if (
-          !result.content.usernameExists &&
-          result.content.emailExists
-        ) {
-          message = "This email is already being used.";
-        } else {
-          message = "Other users are already using this username and email.";
-        }
-        document.querySelector("#new-user-form-div").append(
-          Object.assign(document.createElement("p"), {
-            className: "sign-up-error",
-            textContent: `${message}<br>Emails and usernames must be unique.`,
-          })
-        );
+      console.log(result.content);
+      let message;
+      if (result.content.usernameExists && !result.content.emailExists) {
+        message = "This username is already being used.";
+      } else if (!result.content.usernameExists && result.content.emailExists) {
+        message = "This email is already being used.";
+      } else {
+        message = "Other users are already using this username and email.";
       }
+      const signUpErrorDivEl = Object.assign(document.createElement("div"), {
+        id: "sign-up-error-div",
+      });
+      signUpErrorDivEl.append(
+        Object.assign(document.createElement("p"), {
+          textContent: message,
+        })
+      );
+      signUpErrorDivEl.append(
+        Object.assign(document.createElement("p"), {
+          textContent: "Emails and usernames must be unique.",
+        })
+      );
+      document.querySelector("#new-user-form-div").append(signUpErrorDivEl);
     });
 }
