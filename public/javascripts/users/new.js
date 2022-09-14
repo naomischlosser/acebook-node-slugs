@@ -13,7 +13,6 @@ function submitNewUserForm() {
   })
     .then((response) => response.json())
     .then((result) => {
-      console.log(result.content);
       let message;
       if (result.content.usernameExists && !result.content.emailExists) {
         message = "This username is already being used.";
@@ -22,6 +21,9 @@ function submitNewUserForm() {
       } else {
         message = "Other users are already using this username and email.";
       }
+
+      if (document.querySelector("div#sign-up-error-div"))
+        document.querySelector("div#sign-up-error-div").remove();
       const signUpErrorDivEl = Object.assign(document.createElement("div"), {
         id: "sign-up-error-div",
       });
