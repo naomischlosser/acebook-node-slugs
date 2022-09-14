@@ -35,7 +35,7 @@ describe("Sign up validation", () => {
     cy.get("#email").type("billy@example.com");
     cy.get("#password").type("password");
     cy.get("#signup").click();
-    cy.get(".sign-up-error").contains("This email has already been used.");
+    cy.get(".sign-up-error").contains("This email is already being used.");
     cy.get(".sign-up-error").contains("Emails and usernames must be unique.");
   });
 
@@ -53,7 +53,7 @@ describe("Sign up validation", () => {
     cy.get("#password").type("password");
     cy.get("#signup").click();
     cy.get(".sign-up-error").contains(
-      "Other users are already using this username and email"
+      "Other users are already using this username and email."
     );
     cy.get(".sign-up-error").contains("Emails and usernames must be unique.");
   });

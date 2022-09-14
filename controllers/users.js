@@ -14,15 +14,17 @@ const UsersController = {
         if (err) {
           throw err;
         } else if (result.length) {
-          let userNameExists = false;
+          let usernameExists = false;
           let emailExists = false;
           if (result.filter((user) => user.username).length)
-            userNameExists = true;
+            usernameExists = true;
           if (result.filter((user) => user.email).length) emailExists = true;
           res.send(
             JSON.stringify({
-              usernameExists: usernameExists,
-              emailExists: emailExists,
+              content: {
+                usernameExists: usernameExists,
+                emailExists: emailExists,
+              },
             })
           );
         } else {
