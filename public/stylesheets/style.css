@@ -177,6 +177,7 @@ input#password {
   height: 150px;
   overflow: hidden;
   border-radius: 50%;
+  border-style: solid;
 }
 .circular-portrait img {
   width: 150px;
