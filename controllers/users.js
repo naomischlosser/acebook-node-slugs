@@ -7,14 +7,34 @@ const UsersController = {
 
   Create: (req, res) => {
     const user = new User(req.body);
-    console.log("New user form submitted");
-    user.save((err) => {
-      if (err) {
-        throw err;
+
+    User.find(
+      { $or: [{ username: req.body.username }, { email: req.body.email }] },
+      (err, result) => {
+        if (err) {
+          throw err;
+        } else if (result.length) {
+          let userNameExists = false;
+          let emailExists = false;
+          if (result.filter((user) => user.username).length)
+            userNameExists = true;
+          if (result.filter((user) => user.email).length) emailExists = true;
+          res.send(
+            JSON.stringify({
+              usernameExists: usernameExists,
+              emailExists: emailExists,
+            })
+          );
+        } else {
+          user.save((err) => {
+            if (err) {
+              throw err;
+            }
+            res.status(201).redirect("/posts");
+          });
+        }
       }
-      console.log("New user entry created");
-      res.status(201).redirect("/posts");
-    });
+    );
   },
 };
 
