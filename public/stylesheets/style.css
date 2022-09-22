@@ -428,3 +428,13 @@ input#email {
   width: 150px;
   height: auto;
 }
+
+.new-post-link {
+  margin-bottom: 20px;
+}
+
+/* .new-post-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
