@@ -13,8 +13,11 @@ var mongoose = require("mongoose");
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || "3000");
-app.set("port", port);
+// var port = normalizePort(process.env.PORT || "3000");
+// app.set("port", port);
+
+var port_number = server.listen(process.env.PORT || 3000);
+app.listen(port_number);
 
 /**
  * Connect to MongoDB
