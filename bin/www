@@ -19,15 +19,16 @@ app.set("port", port);
 /**
  * Connect to MongoDB
  **/
-
-var mongoDbUri = process.env.MONGODB_URI || "mongodb://0.0.0.0/acebook";
-mongoose.connect(mongoDbUri, {
+//  || "mongodb://0.0.0.0/acebook"
+var mongoDbUri = process.env.MONGODB_URI || "mongodb://0.0.0.0/acebook" ;
+mongoose.connect(mongoDbUri, { 
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
 
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.once('open', () => console.log('database connected'))
 
 /**
  * Create HTTP server.

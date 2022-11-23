@@ -6,6 +6,7 @@ const logger = require("morgan");
 const session = require("express-session");
 const methodOverride = require("method-override");
 const fileUpload = require("express-fileupload");
+const dotEnv = require('dotenv')
 
 const homeRouter = require("./routes/home");
 const postsRouter = require("./routes/posts");
@@ -18,6 +19,7 @@ const likesRouter = require("./routes/likes");
 const commentsRouter = require("./routes/comments");
 
 const app = express();
+dotEnv.config()
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
