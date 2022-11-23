@@ -28,7 +28,7 @@ mongoose.connect(mongoDbUri, {
 
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
-db.once('open', () => console.log('database connected'))
+db.on("connection", () => { console.log('db connected') })
 
 /**
  * Create HTTP server.
